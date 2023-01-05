@@ -20,7 +20,7 @@
 
 import sys
 from base64 import b64decode
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from random import choice
 
 import requests
@@ -115,11 +115,9 @@ class MindigoClient:
     }
 
     def login(self, username, password):
-        url = "%slogin?deviceType=WEB" % self.api_url
+        url = "%slogin?deviceType=WEB&tenantId=1" % self.api_url
         response = request_page(
             url,
-            headers=self.HEADERS,
-            additional_headers={"Referer": "%s/home" % self.web_url},
             data={"username": username, "password": password},
         )
 
@@ -151,8 +149,8 @@ class MindigoClient:
     def get_epg(
         self,
         channels,
-        start=(datetime.now(timezone.utc) - timedelta(hours=4)).replace(tzinfo=None),
-        end=(datetime.now(timezone.utc) + timedelta(hours=72)).replace(tzinfo=None),
+        start=datetime.utcnow() - timedelta(hours=4),
+        end=datetime.utcnow() + timedelta(hours=72),
     ):
         url = (
             "%sepg/channels?startTime=%sZ&endTime=%sZ&channelIds=%s&vf=dash&visibilityRights=PLAY"
