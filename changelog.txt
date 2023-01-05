@@ -1,3 +1,6 @@
+[B]2.1.1[/B]
+- Kodi 18 support
+
 [B]2.1.0[/B]
  - support for widewine content-protection (ratcashdev)
  - EPG support. This plugin now generates XMLTV EPG and m3u8 files in its addon_data folder ({kodi}/userdata/addon_data/plugin.video.mindigo) usable by Simple IPTV PVR
