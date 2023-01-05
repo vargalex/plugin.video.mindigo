@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.mindigo" name="MindigoTV" version="2.1.0" provider-name='Mr Dini, ratcashdev'>
+  <requires>
+    <!-- <import addon="xbmc.python" version="2.24.0"/> -->
+    <import addon="script.module.mrdini.routines"/>
+    <import addon="inputstream.adaptive"/>
+    <import addon="inputstream.rtmp"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="default.py">
+    <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="hu">MindigoTV</summary>
+    <description lang="hu">Kiegészítő a MindigoTV streamek Kodin keresztüli eléréséhez.</description>
+    <disclaimer lang="hu">Nem hivatalos kiegészítő!</disclaimer>
+        <summary lang="en_gb">MindigoTV</summary>
+    <description lang="en_gb">Kiegészítő a MindigoTV streamek Kodin keresztüli eléréséhez.</description>
+    <disclaimer lang="en_gb">Nem hivatalos kiegészítő!</disclaimer>
+    <language>hu</language>
+    <platform>all</platform>
+    <license>GNU AFFERO GENERAL PUBLIC LICENSE. Version 3, 19 November 2007</license>
+    <website>mvshrk.xyz</website>
+    <source>https://github.com/movieshark/MindiGo</source>
+    <news>2.1.0[CR]- EPG support</news>
+    <assets>
+        <icon>icon.png</icon>
+        <fanart>fanart.png</fanart>
+        <!--<screenshot></screenshot>-->
+    </assets>
+  </extension>
+</addon>

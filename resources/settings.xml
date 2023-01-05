@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <category label="Általános">
+        <setting label="Felhasználónév" default="" id="username" type="text"/>
+        <setting label="Jelszó" default="" id="password" type="text" option="hidden"/>
+        <setting type="sep"/>
+        <setting label="Aktuálisan futó műsor megjelenítése" type="enum" id="display_epg" values="Mindig|Csak csatornaválasztóban|Soha"/>
+        <!-- Hidden data -->
+        <setting id="is_firstrun" type="bool" visible="false" default="true"/>
+    </category>
+    <category label="Haladó">
+    <setting label="Opciók haladó felhasználóknak" type="lsep"/>
+    <setting id="user_agent" type="text" label="Egyedi user-agent" default=""/>
+    <setting label="Hagyd üresen, hogy az addon válasszon." enable="false"/>
+    <setting label="Token frissítési időköz (mp)" type="number" id="token_lifetime" default="86400"/>
+    <!-- Auth data -->
+    <setting id="token_updated_at" type="text" visible="false" default="0"/>
+    <setting id="token" type="text" visible="false" default=""/>
+    <setting id="refresh_token" type="text" visible="false" default=""/>
+    </category>
+</settings>

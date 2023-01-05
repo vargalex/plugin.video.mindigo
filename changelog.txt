@@ -1,0 +1,42 @@
+[B]2.1.0[/B]
+ - support for widewine content-protection (ratcashdev)
+ - EPG support. This plugin now generates XMLTV EPG and m3u8 files in its addon_data folder ({kodi}/userdata/addon_data/plugin.video.mindigo) usable by Simple IPTV PVR
+ - Kodi Matrix only. Untested with Python2 / Kodi 18.x and older
+
+[B]2.0.0[/B]
+ - new api based on tv.mindigo.hu (ratcashdev)
+ - matrix compatibility (Mr Dini)
+ - fixes (Mr Dini)
+
+[B]1.0.9[/B]
+ - Customize whether to show the current show only in menu, also while playing or not at all
+ - app version dump
+
+[B]1.0.8[/B]
+ - revert new playback method
+ - thanks to requests now we can do more advanced error logging 🎉
+
+[B]1.0.7[/B]
+ - playback fix
+
+[B]1.0.6[/B]
+ - Common routines have been moved to a separate module (can be used in other plugins too)
+ - Migrate from urllib2 to requests module for all our HTTP requests
+ - Kodi internal URL resolving (introduced in 1.0.1) is now default, minor fixes have been made
+   -- old playback mode (useful for old Kodi support) can now be enabled from the addon settings
+ - If the addon detects DRM secured content it won't try to play anymore but show a notification that it's not supported (yet)
+ - Change in playback user-agent handling
+
+[B]1.0.4-5[/B]
+ - updated login logic
+
+[B]1.0.2-3[/B]
+ - quick bugfix
+
+[B]1.0.1[/B]
+ - Optional support for internal Kodi URL resolving
+ - Now the current programs will be in gray * fancy *
+ - Channel list items now have an update list context menu element (press 'C' on any channel from the listing)
+
+[B]1.0.0[/B]
+ - initial, beta release
