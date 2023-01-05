@@ -25,19 +25,21 @@ import xbmcgui
 from mindigo_client import MindigoClient,ContentVisibilityError
 from mrdini.routines import routines
 from xbmcplugin import endOfDirectory, setContent
-import xbmcvfs
 import epg_transform
 
 if sys.version_info[0] == 3:
-    from urllib.parse import parse_qsl, quote
+    from urllib.parse import parse_qsl, quote_plus
+    from xbmcvfs import translatePath
 else:
     # python2 compatibility
     from urlparse import parse_qsl
+    from xbmc import translatePath
+    from urllib import quote_plus
 
 utils = routines.Utils(xbmcaddon.Addon())
 client = MindigoClient()
 __addon__ = xbmcaddon.Addon(id='plugin.video.mindigo')
-__addondir__ = xbmcvfs.translatePath(__addon__.getAddonInfo('profile'))
+__addondir__ = translatePath(__addon__.getAddonInfo('profile'))
 
 
 def setupSession():
@@ -175,12 +177,15 @@ def play_protected_dash(handle, video, _type, **kwargs):
     user_agent = kwargs.get("user_agent", routines.random_uagent())
 
     listitem = xbmcgui.ListItem(label=video.name)
-    listitem.setProperty('inputstream', 'inputstream.adaptive')
+    if sys.version_info < (3, 0):
+        listitem.setProperty('inputstreamaddon', 'inputstream.adaptive')
+    else:
+        listitem.setProperty('inputstream', 'inputstream.adaptive')
     listitem.setProperty('inputstream.adaptive.manifest_type', 'mpd')
     listitem.setMimeType('application/dash+xml')
     listitem.setProperty('inputstream.adaptive.stream_headers', "User-Agent=%s" % user_agent)
    
-    license_url = 'https://drm-prod.mindigo.hu/widevine/license?drmToken=%s' % quote(video.drm_token) 
+    license_url = 'https://drm-prod.mindigo.hu/widevine/license?drmToken=%s' % quote_plus(video.drm_token)
     listitem.setProperty('inputstream.adaptive.license_type','com.widevine.alpha')
     listitem.setProperty('inputstream.adaptive.license_key', license_url + '|Content-Type=application/octet-stream|R{SSM}|')
     

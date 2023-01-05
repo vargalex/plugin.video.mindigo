@@ -1,11 +1,11 @@
-import os
+import os, sys
 from datetime import datetime
-from html import escape
+
 # class EpgHelper:
 
 
 # output
-def make_xml_guide(channels : dict, mindigo_epg : list, base_url = "https://mindigtvgo.hu"):
+def make_xml_guide(channels, mindigo_epg, base_url = "https://mindigtvgo.hu"):
     #Returns the XMLTV as a string.
 
     #Parameters:
@@ -26,10 +26,10 @@ def make_xml_guide(channels : dict, mindigo_epg : list, base_url = "https://mind
         xmltv += ch_line
 
     for program in mindigo_epg:
-        start = datetime.fromisoformat(program["startTime"].replace('Z',' +00:00')).strftime("%Y%m%d%H%M%S +0000")
-        end = datetime.fromisoformat(program["endTime"].replace('Z',' +00:00')).strftime("%Y%m%d%H%M%S +0000")
-        title = escape(program["title"])
-        desc = escape(program["description"])
+        start = datetime.strptime(program["startTime"], "%Y-%m-%dT%H:%M:%SZ").strftime("%Y%m%d%H%M%S +0000")
+        end = datetime.strptime(program["endTime"], "%Y-%m-%dT%H:%M:%SZ").strftime("%Y%m%d%H%M%S +0000")
+        title = program["title"]
+        desc = program["description"]
         if (desc == ''):
             desc = title
         # or "state" : "CATCHUP"
@@ -47,7 +47,7 @@ def make_xml_guide(channels : dict, mindigo_epg : list, base_url = "https://mind
 
     return xmltv
 
-def make_m3u(channels:dict, base_url = "https://mindigtvgo.hu"):
+def make_m3u(channels, base_url = "https://mindigtvgo.hu"):
     m3u = '#EXTM3U\n'
     for ch_id, ch in channels.items():
         catchup_info = 'catchup="append" catchup-source="&extra={catchup-id}"' if ch["tvServices"]["catchupTv"] else ''
@@ -55,8 +55,20 @@ def make_m3u(channels:dict, base_url = "https://mindigtvgo.hu"):
         m3u += channel_data
     return m3u
 
+def py2_encode(s, encoding='utf-8', errors='strict'):
+    """
+    Encode Python 2 ``unicode`` to ``str``
+    In Python 3 the string is not changed.
+    """
+    if sys.version_info[0] == 2 and isinstance(s, unicode):
+        s = s.encode(encoding, errors)
+    return s
 
-def write_str(dst_dir, file_name:str, xmltv:str):
+def write_str(dst_dir, file_name, xmltv):
     path = os.path.join(dst_dir, file_name)
-    with open(path, 'w', encoding='utf8') as f:
-        f.write(xmltv)
+    if sys.version_info[0] == 3:
+        with open(path, 'w', encoding='utf8') as f:
+            f.write(xmltv)
+    else:
+        with open(path, 'w') as f:
+            f.write(py2_encode(xmltv))
