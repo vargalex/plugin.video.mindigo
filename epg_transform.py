@@ -1,4 +1,4 @@
-import os, sys
+import os, sys, time
 from datetime import datetime
 
 # class EpgHelper:
@@ -26,8 +26,15 @@ def make_xml_guide(channels, mindigo_epg, base_url = "https://mindigtvgo.hu"):
         xmltv += ch_line
 
     for program in mindigo_epg:
-        start = datetime.strptime(program["startTime"], "%Y-%m-%dT%H:%M:%SZ").strftime("%Y%m%d%H%M%S +0000")
-        end = datetime.strptime(program["endTime"], "%Y-%m-%dT%H:%M:%SZ").strftime("%Y%m%d%H%M%S +0000")
+        # datetime bug in python 3
+        try:
+            start = datetime.strptime(program["startTime"], "%Y-%m-%dT%H:%M:%SZ").strftime("%Y%m%d%H%M%S +0000")
+        except TypeError:
+            start = datetime(*(time.strptime(program["startTime"], "%Y-%m-%dT%H:%M:%SZ")[0:6])).strftime("%Y%m%d%H%M%S +0000")
+        try:
+            end = datetime.strptime(program["endTime"], "%Y-%m-%dT%H:%M:%SZ").strftime("%Y%m%d%H%M%S +0000")
+        except TypeError:
+            end = datetime(*(time.strptime(program["endTime"], "%Y-%m-%dT%H:%M:%SZ")[0:6])).strftime("%Y%m%d%H%M%S +0000")
         title = program["title"]
         desc = program["description"]
         if (desc == ''):
